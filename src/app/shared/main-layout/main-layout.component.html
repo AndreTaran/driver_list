@@ -1,18 +1,21 @@
 <nav class="nav-bar">
   <ul class="nav-links">
-    <li class="nav-link">
+    <li class="nav-link" *ngIf="currentUser">
       <a routerLink="drivers" routerLinkActive="active">Drivers</a>
     </li>
-    <li class="nav-link">
+    <li class="nav-link" *ngIf="currentUser">
       <a routerLink="orders" routerLinkActive="active">Orders</a>
     </li>
-    <li class="nav-link">
+    <li class="nav-link" *ngIf="currentUser">
       <a routerLink="brokers" routerLinkActive="active">Brokers</a>
     </li>
 
     <li class="nav-link log-status">
-      <a routerLink="login" routerLinkActive="active">login</a>
-      <a (click)="logout()">logout</a>
+      <a routerLink="login" routerLinkActive="active" *ngIf="!currentUser">login</a>
+      <div *ngIf="currentUser">
+        {{'user name '}}
+        <a (click)="logout()">logout</a>
+      </div>
     </li>
   </ul>
 </nav>

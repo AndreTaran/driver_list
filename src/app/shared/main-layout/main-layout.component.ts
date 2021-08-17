@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../services/auth.service";
+import {AuthService, User} from "../services/auth.service";
 
 @Component({
   selector: 'app-main-layout',
@@ -7,10 +7,12 @@ import {AuthService} from "../services/auth.service";
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
-
+  currentUser!: any;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(res => this.currentUser = res);
+    console.log(this.currentUser, 'curr user')
   }
 
   logout() {
