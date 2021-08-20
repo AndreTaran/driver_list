@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <div class="error" *ngIf="form.controls.email.invalid && form.controls.email.touched">
+      Email is required
+    </div>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="password">
+    </mat-form-field>
+    <div class="error" *ngIf="form.controls.password.invalid && form.controls.password.touched">
+      Password is required
+    </div>
+  </div>
+
+  <button class="submitButton" (click)="onSubmit()">Log In</button>
+</form>
