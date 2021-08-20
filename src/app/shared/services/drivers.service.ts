@@ -1,9 +1,40 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {Driver} from "../models/driver";
+import {environment} from "../../../environments/environment";
+import {FormArray} from "@angular/forms";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DriversService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  getAll(): Observable<Driver[]> {
+    return this.http.get<Driver[]>(`${environment.fbURL}/drivers.json`);
+  }
+
+  getById(driver: Driver): Observable<Driver> {
+    return this.http.get<Driver>(`${environment.fbURL}/drivers/${driver.id}.json`)
+  }
+
+  getAllAsFormArray(): Observable<FormArray> {
+    return this.getAll().pipe(
+      map((drivers) => {
+        drivers = [...Object.values(drivers)];
+        console.log(drivers, 'chich')
+        const fgs = drivers.map(driver => Driver.asFormGroup(driver));
+        return new FormArray(fgs);
+      })
+    )
+  }
+
+  updateData(driver: Driver) {
+    console.log(driver, 'driver')
+    return this.http.patch(`${environment.fbURL}/drivers/${driver.id}.json`, driver)
+      .subscribe(res => console.log(res, 'www'))
+  }
 }

@@ -1,0 +1,95 @@
+<form [formGroup]="form">
+  <h2>Status Update</h2>
+  <div>
+    <mat-form-field>
+      <input matInput #filter>
+    </mat-form-field>
+
+    <button (click)="applySearch(filter.value)">find</button>
+    <button (click)="applySearch('')">reset</button>
+  </div>
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>id</mat-header-cell>
+      <mat-cell *matCellDef="let element" [formGroup]="element">
+        <mat-form-field>
+          <input matInput formControlName="id">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>name</mat-header-cell>
+      <mat-cell *matCellDef="let element" [formGroup]="element">
+        <mat-form-field>
+          <input matInput formControlName="name">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="zip">
+      <mat-header-cell *matHeaderCellDef>zip</mat-header-cell>
+      <mat-cell *matCellDef="let element" [formGroup]="element">
+        <mat-form-field>
+          <input matInput formControlName="zip">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>status</mat-header-cell>
+      <mat-cell *matCellDef="let element" [formGroup]="element">
+        <mat-form-field>
+          <mat-select formControlName="status">
+            <mat-option value="available">available</mat-option>
+            <mat-option value="unavailable">unavailable</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="restTime">
+      <mat-header-cell *matHeaderCellDef>restTime</mat-header-cell>
+      <mat-cell *matCellDef="let element" [formGroup]="element">
+        <!--        <mat-form-field>-->
+        <!--          <input matInput [matDatepicker]="picker" formControlName="restTime">-->
+        <!--          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+        <!--          <mat-datepicker #picker></mat-datepicker>-->
+        <!--        </mat-form-field>-->
+        <mat-form-field>
+          <input matInput [ngxMatDatetimePicker]="picker"
+                 formControlName="restTime">
+          <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker [showSpinners]="true" [showSeconds]="false"
+                                   [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
+                                   [touchUi]="false" [enableMeridian]="false"
+                                   [disableMinute]="false" [hideTime]="false">
+          </ngx-mat-datetime-picker>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="notes">
+      <mat-header-cell *matHeaderCellDef>notes</mat-header-cell>
+      <mat-cell *matCellDef="let element" [formGroup]="element">
+        <mat-form-field>
+          <input matInput formControlName="notes">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element" style="justify-content: center">
+        <button (click)="confirmDialogSave(element)">save</button>
+        <button (click)="confirmDialogCancel(element)">cancel</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let element; let row; columns: displayedColumns"></mat-row>
+  </table>
+</form>
+
+
+
