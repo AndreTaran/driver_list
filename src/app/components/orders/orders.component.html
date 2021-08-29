@@ -1,1 +1,262 @@
-<p>orders works!</p>
+<h2>Order Status</h2>
+
+<div>
+  <mat-form-field>
+    <input matInput placeholder="zip code" #zipCode>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="distance" #distance>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="searchDrivers(zipCode.value, distance.value)">search</button>
+  <button mat-button (click)="searchDrivers('', '')">refresh</button>
+
+  <button mat-raised-button (click)="openUpdateDialog()">Update</button>
+  <button mat-raised-button (click)="openReserveDialog()">Reserve</button>
+  <p *ngIf="chosenDriver?.id"><span *ngIf="timerList[chosenDriver.id].isShown">{{(timerList[chosenDriver.id].timer$ | async)}}</span></p>
+</div>
+
+<table mat-table [dataSource]="dataSource" *ngIf="isFiltered || codes">
+  <ng-container matColumnDef="idAndType">
+    <mat-header-cell *matHeaderCellDef class="idAndTypeColumn">
+      <div class="subcell">
+        <p class="upper-header">id</p>
+        <p class="lower-header">type</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="idAndTypeColumn">
+      <div class="subcell">
+        <p class="upper">{{ element?.id }}</p>
+        <p class="lower">{{ element?.carBrand }}</p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="driverStatus">
+    <mat-header-cell *matHeaderCellDef class="statusColumn">
+      <div class="subcell">
+        <p class="upper-header">driver status</p>
+        <p class="lower-header">comment</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="statusColumn">
+      <div class="subcell">
+        <p class="upper" [ngClass]="{'reserved': (timerList[element.id].timer$ | async) > 0 && timerList[element.id].isShown}">
+          {{ element?.status }}
+          <span>
+          {{timerList[element.id].isShown ? (timerList[element.id].timer$ | async) : ''}}
+          </span>
+        </p>
+        <p class="lower" style="overflow: hidden">{{ element?.notes }}</p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="driverZipAndMiles">
+    <mat-header-cell *matHeaderCellDef class="zipMilesColumn">
+      <div class="subcell">
+        <p class="upper-header">cur zip</p>
+        <p class="lower-header">miles out</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="zipMilesColumn">
+      <div class="subcell">
+        <p class="upper">{{ element?.zip }}</p>
+        <p class="lower cells-blue">
+          <span *ngIf="codes">{{ codes[element.zip] }}</span>
+          <span *ngIf="!codes">0</span>
+        </p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="stateAndCity">
+    <mat-header-cell *matHeaderCellDef class="stateCityColumn">
+      <div class="subcell">
+        <p class="upper-header">state</p>
+        <p class="lower-header">city</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="stateCityColumn">
+      <div class="subcell">
+        <p class="upper">{{ element.currentState }}shi</p>
+        <p class="lower">{{ element.currentCity }}za</p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="timeAndVehicle">
+    <mat-header-cell *matHeaderCellDef class="timeAndVehicleColumn">
+      <div class="subcell">
+        <p class="upper-header">not active till</p>
+        <p class="lower-header">capacity/original</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="timeAndVehicleColumn">
+      <div class="subcell">
+        <p class="upper">{{ element?.restTime | date: 'd-M-yy, h:mm a' }}</p>
+        <p class="lower">{{ element?.vehicleCapacity }}/{{ element.vehicleWeight }}</p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="flags">
+    <mat-header-cell *matHeaderCellDef class="flagsColumn">
+        <div class="upper-header cells">
+          <div class="cell">lg</div>
+          <div class="cell cell-medium">r</div>
+          <div class="cell">ar</div>
+        </div>
+        <div class="lower-header cells">
+          <div class="cell">p</div>
+          <div class="cell cell-medium">t</div>
+          <div class="cell">dh</div>
+        </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="flagsColumn">
+        <div class="upper cells">
+            <div class="cell" *ngIf="element.lg"><i class="fa fa-check"></i></div>
+            <div class="cell" *ngIf="!element.lg"><i class="fa fa-times"></i></div>
+
+            <div class="cell cell-medium" *ngIf="element.r"><i class="fa fa-check"></i></div>
+            <div class="cell cell-medium" *ngIf="!element.r"><i class="fa fa-times"></i></div>
+
+            <div class="cell" *ngIf="element.ar"><i class="fa fa-check"></i></div>
+            <div class="cell" *ngIf="!element.ar"><i class="fa fa-times"></i></div>
+        </div>
+        <div class="lower cells">
+            <div class="cell" *ngIf="element.p"><i class="fa fa-check"></i></div>
+            <div class="cell" *ngIf="!element.p"><i class="fa fa-times"></i></div>
+
+            <div class="cell cell-medium" *ngIf="element.t"><i class="fa fa-check"></i></div>
+            <div class="cell cell-medium" *ngIf="!element.t"><i class="fa fa-times"></i></div>
+
+            <div class="cell" *ngIf="element.dh"><i class="fa fa-check"></i></div>
+            <div class="cell" *ngIf="!element.dh"><i class="fa fa-times"></i></div>
+        </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="driverNameAndAddress">
+    <mat-header-cell *matHeaderCellDef class="driverNameAndAddressColumn">
+      <div class="subcell">
+        <p class="upper-header">driver name</p>
+        <p class="lower-header">driver home</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="driverNameAndAddressColumn">
+      <div class="subcell">
+        <p class="upper">{{ element.name }}</p>
+        <p class="lower">{{ element.homeAddress }}</p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="isCitizenAndToCanada">
+    <mat-header-cell *matHeaderCellDef class="isCitizenColumn">
+      <div class="subcell">
+        <p class="upper-header">ctz</p>
+        <p class="lower-header">c</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="isCitizenColumn">
+      <div class="subcell">
+        <p class="upper">
+          <span *ngIf="element.isCitizen"><i class="fa fa-check"></i></span>
+          <span *ngIf="!element.isCitizen"><i class="fa fa-times"></i></span>
+        </p>
+        <p class="lower">
+          <span *ngIf="element.toCanada"><i class="fa fa-check"></i></span>
+          <span *ngIf="!element.toCanada"><i class="fa fa-times"></i></span>
+        </p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="size">
+    <mat-header-cell *matHeaderCellDef class="sizeColumn">
+      <div class="subcell">
+        <div class="upper-header cells">
+          <div class="cell">r</div>
+          <div class="cell cell-medium">dw</div>
+          <div class="cell">dh</div>
+        </div>
+        <div class="lower-header cells">
+          <div class="cell">l</div>
+          <div class="cell cell-medium">w</div>
+          <div class="cell">h</div>
+        </div>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="sizeColumn">
+      <div class="subcell">
+        <div class="upper cells">
+          <div class="cell">r</div>
+          <div class="cell cell-medium">{{ element.carDoorWidth }}</div>
+          <div class="cell">{{ element.carDoorHeight }}</div>
+        </div>
+        <div class="lower cells cells-yellow">
+          <div class="cell">{{ element.carInsideLength }}</div>
+          <div class="cell cell-medium">{{ element.carInsideWidth }}</div>
+          <div class="cell">{{ element.carInsideHeight }}</div>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ETA">
+    <mat-header-cell *matHeaderCellDef class="ETAColumn">
+      <div class="subcell">
+        <p class="upper-header">ETA to PU</p>
+        <p class="lower-header">ETA to Drop</p>
+      </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="ETAColumn">
+      <div class="subcell">
+        <p class="upper">ETA to PU</p>
+        <p class="lower">ETA to Drop</p>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="driverName">
+    <mat-header-cell *matHeaderCellDef class="driverNameColumn">
+      Driver Name
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="driverNameColumn">
+      {{ element.name }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="driverContact">
+    <mat-header-cell *matHeaderCellDef class="driverContactColumn">
+      Call
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="driverContactColumn">
+      {{ element.phoneNumber }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ownerName">
+    <mat-header-cell *matHeaderCellDef class="driverNameColumn">
+      Owner name
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="driverNameColumn">
+      {{ element.bossName }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ownerContact">
+    <mat-header-cell *matHeaderCellDef class="driverContactColumn">
+      Call
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="driverContactColumn">
+      {{ element.phoneNumberBoss }}
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row [ngClass]="{'row-red': (element.zip % 2),
+                       'row-chosen': chosenDriver == element}" *matRowDef="let element; let row; columns: displayedColumns" (click)="chose(element)"></mat-row>
+</table>
+
+

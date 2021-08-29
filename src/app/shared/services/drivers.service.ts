@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Driver} from "../models/driver";
 import {environment} from "../../../environments/environment";
 import {FormArray} from "@angular/forms";
 import {map} from "rxjs/operators";
+
+import * as drivers from '../drivers.json';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +38,10 @@ export class DriversService {
     console.log(driver, 'driver')
     return this.http.patch(`${environment.fbURL}/drivers/${driver.id}.json`, driver)
       .subscribe(res => console.log(res, 'www'))
+  }
+
+  getFakeData() {
+    return this.http.get(`${environment.fbURL}/drivers.json`);
+    // return of(drivers);
   }
 }

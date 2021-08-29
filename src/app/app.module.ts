@@ -25,6 +25,9 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { DriverUpdateDialogComponent } from './shared/components/driver-update-dialog/driver-update-dialog.component';
+import { ReserveDialogComponent } from './shared/components/reserve-dialog/reserve-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import {MatButtonModule} from "@angular/material/button";
     BrokersComponent,
     MainLayoutComponent,
     LoginPageComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    DriverUpdateDialogComponent,
+    ReserveDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatDatepickerModule,
     MatSelectModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
