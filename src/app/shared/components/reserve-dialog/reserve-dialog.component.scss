@@ -1,0 +1,22 @@
+.mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mat-dialog-title {
+  text-align: center;
+}
+
+mat-form-field {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.mat-dialog-actions {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

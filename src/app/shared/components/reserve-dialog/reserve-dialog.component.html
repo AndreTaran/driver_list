@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>reserve driver {{ data.driver.name }}</h2>
+
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>minutes</mat-label>
+    <input matInput [(ngModel)]="minutes">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>seconds</mat-label>
+    <input matInput [(ngModel)]="seconds">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClose()">cancel</button>
+  <button mat-button (click)="onReserve()">reserve</button>
+</div>

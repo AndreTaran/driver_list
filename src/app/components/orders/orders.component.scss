@@ -1,0 +1,165 @@
+$border: rgba(0,0,0,.12);
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  //overflow: hidden;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  width: 1370px;
+  padding: 0;
+  margin: 0 auto;
+  border-left: 1px solid $border;
+  border-right: 1px solid $border;
+  border-top: 1px solid $border;
+}
+
+.mat-header-cell,
+.mat-cell,
+.mat-footer-cell {
+  flex: none;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: $border solid 1px;
+  height: 40px;
+  //line-height: 30px;
+}
+
+.mat-header-cell:first-of-type,
+.mat-cell:first-of-type,
+.mat-footer-cell:first-of-type {
+  padding-left: 0px;
+
+}
+
+.mat-header-cell:last-of-type,
+.mat-cell:last-of-type,
+.mat-footer-cell:last-of-type {
+  padding-right: 0px;
+  border-right: 0;
+}
+
+.idAndTypeColumn {
+  width: 75px;
+}
+
+.statusColumn {
+  width: 250px;
+}
+
+.zipMilesColumn {
+  width: 80px;
+}
+
+.stateCityColumn {
+  width: 100px;
+}
+
+.timeAndVehicleColumn {
+  width: 150px;
+}
+
+.flagsColumn {
+  width: 45px;
+  display: flex;
+  flex-direction: column;
+}
+
+.driverNameAndAddressColumn {
+  width: 150px;
+}
+
+.isCitizenColumn {
+  width: 30px;
+}
+
+.sizeColumn {
+  width: 90px;
+}
+
+.ETAColumn {
+  width: 100px;
+}
+
+.driverNameColumn {
+  width: 100px;
+}
+
+.driverContactColumn {
+  width: 115px;
+}
+
+.cells {
+  width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cell {
+  height: 23.5px;
+  line-height: 25px;
+  width: 30px;
+  align-self: center;
+  vertical-align: middle;
+}
+
+.cell-medium {
+  border-right: 1px solid $border;
+  border-left: 1px solid $border;
+}
+
+.subcell {
+  width: inherit;
+}
+
+.upper-header, .upper, .lower-header, .lower, .medium {
+  width: inherit;
+  height: 24px;
+  vertical-align: middle;
+  //line-height: 20px;
+}
+
+.upper-header, .upper, .medium {
+  border-bottom: 1px solid $border;
+}
+
+.fa-check {
+  color: greenyellow;
+}
+
+.fa-times {
+  color: orangered;
+}
+
+.mat-form-field {
+  margin-right: 20px;
+}
+
+.cells-yellow {
+  background-color: yellow;
+}
+
+.cells-blue {
+  background-color: deepskyblue;
+}
+
+.row-red {
+  background-color: #ff8585;
+}
+
+.row-chosen {
+  background-color: #ffe796;
+}
+
+.reserved {
+  color: #001aff;
+}
