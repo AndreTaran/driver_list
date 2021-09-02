@@ -1,0 +1,180 @@
+<h2>add driver</h2>
+
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="field">
+    <mat-label>driver name</mat-label>
+    <input matInput class="form-control" formControlName="driverName">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <input matInput [matDatepicker]="hiringPicker" formControlName="hiringDate">
+    <mat-datepicker-toggle matSuffix [for]="hiringPicker"></mat-datepicker-toggle>
+    <mat-datepicker #hiringPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>driver address. state</mat-label>
+    <input matInput class="form-control" formControlName="driverHomeAddressState">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>driver address. city</mat-label>
+    <input matInput class="form-control" formControlName="driverHomeAddressCity">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>driver status</mat-label>
+    <mat-select class="form-control" formControlName="driverStatus">
+      <mat-option value="available">available</mat-option>
+      <mat-option value="unavailable">unavailable</mat-option>
+      <mat-option value="disabled">disabled</mat-option>
+      <mat-option value="upgrade">upgrade</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>driver current zip</mat-label>
+    <input matInput class="form-control" formControlName="driverCurrentZip">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>driver phone number</mat-label>
+    <input matInput class="form-control" formControlName="driverPhoneNumber">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>vehicle type</mat-label>
+    <mat-select class="form-control" formControlName="vehicleType">
+      <mat-option value="sprinter">sprinter</mat-option>
+      <mat-option value="boxTruck">box truck</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>vehicle brand</mat-label>
+    <input matInput class="form-control" formControlName="vehicleBrand">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>vehicle model</mat-label>
+    <input matInput class="form-control" formControlName="vehicleModel">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>vehicle capacity</mat-label>
+    <input matInput class="form-control" formControlName="vehicleCapacity">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>vehicle weight</mat-label>
+    <input matInput class="form-control" formControlName="vehicleWeight">
+  </mat-form-field>
+
+  <div class="flex-container">
+    <mat-form-field class="flex-container-item">
+      <mat-label>Inside size length</mat-label>
+      <input matInput class="form-control" formControlName="vehicleInsideSizeLength">
+    </mat-form-field>
+
+    <mat-form-field class="flex-container-item">
+      <mat-label>Inside size width</mat-label>
+      <input matInput class="form-control" formControlName="vehicleInsideSizeWidth">
+    </mat-form-field>
+
+    <mat-form-field class="flex-container-item">
+      <mat-label>Inside size height</mat-label>
+      <input matInput class="form-control" formControlName="vehicleInsideSizeHeight">
+    </mat-form-field>
+  </div>
+
+  <div class="flex-container">
+    <mat-form-field class="flex-container-item">
+      <mat-label>door size width</mat-label>
+      <input matInput class="form-control" formControlName="vehicleDoorSizeWidth">
+    </mat-form-field>
+
+    <mat-form-field class="flex-container-item">
+      <mat-label>door size height</mat-label>
+      <input matInput class="form-control" formControlName="vehicleDoorSizeHeight">
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="field">
+    <input matInput [matDatepicker]="yearPicker" formControlName="vehicleProductionYear">
+    <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+    <mat-datepicker #yearPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>vin code</mat-label>
+    <input matInput class="form-control" formControlName="vinCode">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>license number</mat-label>
+    <input matInput class="form-control" formControlName="licenseNumber">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <input matInput [matDatepicker]="insurancePicker" formControlName="insuranceTimeOut">
+    <mat-datepicker-toggle matSuffix [for]="insurancePicker"></mat-datepicker-toggle>
+    <mat-datepicker #insurancePicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>is citizen</mat-label>
+    <mat-select class="form-control" formControlName="isCitizen">
+      <mat-option value="greenCard">green card</mat-option>
+      <mat-option value="citizen">citizen</mat-option>
+      <mat-option value="none">none</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <section>
+    <mat-checkbox class="form-control" formControlName="toCanada">to canada</mat-checkbox>
+  </section>
+
+  <mat-form-field class="field">
+    <mat-label>owner name</mat-label>
+    <input matInput class="form-control" formControlName="ownerName">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>owner phone number</mat-label>
+    <input matInput class="form-control" formControlName="ownerPhoneNumber">
+  </mat-form-field>
+
+  <mat-form-field class="field">
+    <mat-label>comment</mat-label>
+    <textarea matInput formControlName="notes"></textarea>
+  </mat-form-field>
+
+  <div class="flags field">
+    <section>
+      <mat-checkbox class="form-control" formControlName="lg">lg</mat-checkbox>
+    </section>
+
+    <section>
+      <mat-checkbox class="form-control" formControlName="r">r</mat-checkbox>
+    </section>
+
+    <section>
+      <mat-checkbox class="form-control" formControlName="ar">ar</mat-checkbox>
+    </section>
+
+    <section>
+      <mat-checkbox class="form-control" formControlName="p">p</mat-checkbox>
+    </section>
+
+    <section>
+      <mat-checkbox class="form-control" formControlName="t">t</mat-checkbox>
+    </section>
+
+    <section>
+      <mat-checkbox class="form-control" formControlName="dh">dh</mat-checkbox>
+    </section>
+  </div>
+
+  <button mat-raised-button color="primary" class="button" (click)="onSubmit()">Create driver</button>
+
+</form>

@@ -28,6 +28,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { DriverUpdateDialogComponent } from './shared/components/driver-update-dialog/driver-update-dialog.component';
 import { ReserveDialogComponent } from './shared/components/reserve-dialog/reserve-dialog.component';
+import { AddDriverComponent } from './components/add-driver/add-driver.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -39,27 +42,30 @@ import { ReserveDialogComponent } from './shared/components/reserve-dialog/reser
     LoginPageComponent,
     ConfirmDialogComponent,
     DriverUpdateDialogComponent,
-    ReserveDialogComponent
+    ReserveDialogComponent,
+    AddDriverComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    HttpClientModule,
-    NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule,
-    NgxMatNativeDateModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatPaginatorModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatTableModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        HttpClientModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        NgxMatNativeDateModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatCheckboxModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

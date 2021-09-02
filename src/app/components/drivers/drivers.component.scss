@@ -5,3 +5,7 @@ table {
 .mat-cell {
   max-height: 50px;
 }
+
+.drivers ::ng-deep .mat-form-field-underline {
+  display: none;
+}
