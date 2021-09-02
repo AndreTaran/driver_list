@@ -1,7 +1,7 @@
 <form [formGroup]="form">
   <h2>Status Update</h2>
   <div>
-    <mat-form-field>
+    <mat-form-field class="drivers">
       <input matInput #filter>
     </mat-form-field>
 
@@ -12,7 +12,7 @@
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>id</mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
-        <mat-form-field>
+        <mat-form-field class="drivers">
           <input matInput formControlName="id">
         </mat-form-field>
       </mat-cell>
@@ -21,7 +21,7 @@
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>name</mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
-        <mat-form-field>
+        <mat-form-field class="drivers">
           <input matInput formControlName="name">
         </mat-form-field>
       </mat-cell>
@@ -30,7 +30,7 @@
     <ng-container matColumnDef="zip">
       <mat-header-cell *matHeaderCellDef>zip</mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
-        <mat-form-field>
+        <mat-form-field class="drivers">
           <input matInput formControlName="zip">
         </mat-form-field>
       </mat-cell>
@@ -39,7 +39,7 @@
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef>status</mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
-        <mat-form-field>
+        <mat-form-field class="drivers">
           <mat-select formControlName="status">
             <mat-option value="available">available</mat-option>
             <mat-option value="unavailable">unavailable</mat-option>
@@ -56,7 +56,7 @@
         <!--          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
         <!--          <mat-datepicker #picker></mat-datepicker>-->
         <!--        </mat-form-field>-->
-        <mat-form-field>
+        <mat-form-field class="drivers">
           <input matInput [ngxMatDatetimePicker]="picker"
                  formControlName="restTime">
           <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
@@ -72,7 +72,7 @@
     <ng-container matColumnDef="notes">
       <mat-header-cell *matHeaderCellDef>notes</mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
-        <mat-form-field>
+        <mat-form-field class="drivers">
           <input matInput formControlName="notes">
         </mat-form-field>
       </mat-cell>

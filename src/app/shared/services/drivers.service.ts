@@ -44,4 +44,8 @@ export class DriversService {
     return this.http.get(`${environment.fbURL}/drivers.json`);
     // return of(drivers);
   }
+
+  addDriver(form: {}) {
+    return this.http.post(`${environment.fbURL}/driver.json`, form);
+  }
 }

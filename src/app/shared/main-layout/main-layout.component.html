@@ -9,6 +9,9 @@
     <li class="nav-link" *ngIf="currentUser">
       <a routerLink="brokers" routerLinkActive="active">Brokers</a>
     </li>
+    <li class="nav-link" *ngIf="currentUser">
+      <a routerLink="add-driver" routerLinkActive="active">add driver</a>
+    </li>
 
     <li class="nav-link log-status">
       <a routerLink="login" routerLinkActive="active" *ngIf="!currentUser">login</a>

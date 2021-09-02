@@ -6,6 +6,7 @@ import { BrokersComponent} from "./components/broker/brokers.component";
 import {MainLayoutComponent} from "./shared/main-layout/main-layout.component";
 import {LoginPageComponent} from "./components/login-page/login-page.component";
 import {AuthGuard} from "./shared/services/auth.guard";
+import {AddDriverComponent} from "./components/add-driver/add-driver.component";
 
 const routes: Routes = [
   {
@@ -14,7 +15,8 @@ const routes: Routes = [
       {path: 'drivers', component: DriversComponent, canActivate: [AuthGuard]},
       {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
       {path: 'brokers', component: BrokersComponent, canActivate: [AuthGuard]},
-      {path: 'login', component: LoginPageComponent}
+      {path: 'add-driver', component: AddDriverComponent, canActivate: [AuthGuard]},
+      {path: 'login', component: LoginPageComponent},
   ]}
 ];
 
