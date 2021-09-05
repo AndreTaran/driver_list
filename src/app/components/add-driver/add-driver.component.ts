@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DriversService} from "../../shared/services/drivers.service";
+import {map, tap} from "rxjs/operators";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-add-driver',
@@ -9,17 +11,20 @@ import {DriversService} from "../../shared/services/drivers.service";
 })
 export class AddDriverComponent implements OnInit {
   myForm!: FormGroup;
+  lastDriver: any;
   constructor(private formBuilder: FormBuilder,
               private driverService: DriversService) { }
 
   ngOnInit(): void {
+    this.getLastDriver().subscribe(driver => {
+      this.lastDriver = driver
+    });
     this.myForm = this.formBuilder.group({
       'driverName': ['', Validators.required],
       'hiringDate': [new Date(), Validators.required],
       'driverHomeAddressState': ['', Validators.required],
       'driverHomeAddressCity': ['', Validators.required],
       'driverStatus': ['available', Validators.required],
-      'driverCurrentZip': ['', Validators.required],
       'driverPhoneNumber': ['', Validators.required],
       'vehicleType': ['sprinter', Validators.required],
       'vehicleBrand': ['', Validators.required],
@@ -49,9 +54,25 @@ export class AddDriverComponent implements OnInit {
     })
   }
 
-  onSubmit():void {
-    this.driverService.addDriver(this.myForm.value);
-    console.log(this.myForm)
+  onSubmit(event: any):void {
+    event.stopPropagation();
+    let userId = this.lastDriver ? this.lastDriver[0].id + 1 : 0;
+    this.driverService.addDriver({id: userId, ...this.myForm.value}).subscribe(
+      response => {
+        console.log(response);
+        this.myForm.reset();
+      }
+    )
+    this.getLastDriver().subscribe(driver => {
+      this.lastDriver = driver
+    });
+
+  }
+
+  getLastDriver() {
+    return this.driverService.getLastDriver().pipe(
+      map(res => Object.values(res))
+    );
   }
 
 }

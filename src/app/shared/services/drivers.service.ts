@@ -46,6 +46,11 @@ export class DriversService {
   }
 
   addDriver(form: {}) {
-    return this.http.post(`${environment.fbURL}/driver.json`, form);
+    console.log('posted')
+    return this.http.post(`${environment.fbURL}/drivers.json`, form);
+  }
+
+  getLastDriver() {
+    return this.http.get(`${environment.fbURL}/drivers.json?orderBy="$key"&limitToLast=1`)
   }
 }
