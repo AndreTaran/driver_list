@@ -1,6 +1,6 @@
 <h2>add driver</h2>
 
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="myForm">
   <mat-form-field class="field">
     <mat-label>driver name</mat-label>
     <input matInput class="form-control" formControlName="driverName">
@@ -30,11 +30,6 @@
       <mat-option value="disabled">disabled</mat-option>
       <mat-option value="upgrade">upgrade</mat-option>
     </mat-select>
-  </mat-form-field>
-
-  <mat-form-field class="field">
-    <mat-label>driver current zip</mat-label>
-    <input matInput class="form-control" formControlName="driverCurrentZip">
   </mat-form-field>
 
   <mat-form-field class="field">
@@ -175,6 +170,6 @@
     </section>
   </div>
 
-  <button mat-raised-button color="primary" class="button" (click)="onSubmit()">Create driver</button>
+  <button mat-raised-button color="primary" class="button" (click)="onSubmit($event)">Create driver</button>
 
 </form>
