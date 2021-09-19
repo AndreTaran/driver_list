@@ -24,6 +24,7 @@ export class AddDriverComponent implements OnInit {
       'hiringDate': [new Date(), Validators.required],
       'driverHomeAddressState': ['', Validators.required],
       'driverHomeAddressCity': ['', Validators.required],
+      'driverHomeAddressZip': ['', Validators.required],
       'driverStatus': ['available', Validators.required],
       'driverPhoneNumber': ['', Validators.required],
       'vehicleType': ['sprinter', Validators.required],
@@ -57,7 +58,7 @@ export class AddDriverComponent implements OnInit {
   onSubmit(event: any):void {
     event.stopPropagation();
     let userId = this.lastDriver ? this.lastDriver[0].id + 1 : 0;
-    this.driverService.addDriver({id: userId, ...this.myForm.value}).subscribe(
+    this.driverService.addDriver(userId, {id: userId, ...this.myForm.value}).subscribe(
       response => {
         console.log(response);
         this.myForm.reset();

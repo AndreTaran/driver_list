@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "drivers-list": {
+      "hosting": {
+        "drivers": [
+          "drivers-list"
+        ]
+      }
+    }
+  }
+}

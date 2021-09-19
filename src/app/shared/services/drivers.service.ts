@@ -45,9 +45,9 @@ export class DriversService {
     // return of(drivers);
   }
 
-  addDriver(form: {}) {
+  addDriver(id: string, form: {}) {
     console.log('posted')
-    return this.http.post(`${environment.fbURL}/drivers.json`, form);
+    return this.http.patch(`${environment.fbURL}/drivers/${id}.json`, form);
   }
 
   getLastDriver() {

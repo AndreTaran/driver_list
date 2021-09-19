@@ -3,30 +3,30 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class Driver {
   id!: number;
   vehicleType!: string;
-  name!: string;
+  driverName!: string;
   zip!: number;
-  status!: string;
-  homeAddressState!: string;
-  homeAddressCity!: string;
+  driverStatus!: string;
+  driverHomeAddressState!: string;
+  driverHomeAddressCity!: string;
   homeAddressZip!: string;
-  phoneNumber!: string;
-  driverBossName!: string;
-  phoneNumberBoss!: string;
+  driverPhoneNumber!: string;
+  ownerName!: string;
+  ownerPhoneNumber!: string;
   vehicleCapacity!: number;
   vehicleWeight!: number;
-  hiringData!: string;
+  hiringDate!: string;
   vinCode!: string;
   licenseNumber!: string;
   insuranceTimeOut!: string;
-  carBrand!: string;
-  carModel!: string;
-  carColor!: string;
-  carProductionYear!: string;
-  carInsideWidth!: number;
-  carInsideLength!: number;
-  carInsideHeight!: number;
-  carDoorWidth!: number;
-  carDoorHeight!: number;
+  vehicleBrand!: string;
+  vehicleModel!: string;
+  vehicleColor!: string;
+  vehicleProductionYear!: string;
+  vehicleInsideSizeWidth!: number;
+  vehicleInsideSizeLength!: number;
+  vehicleInsideSizeHeight!: number;
+  vehicleDoorSizeWidth!: number;
+  vehicleDoorSizeHeight!: number;
   isCitizen!: string;
   toCanada!: boolean;
   restTime!: string;
@@ -37,19 +37,25 @@ export class Driver {
   ar!: boolean;
   dh!: boolean;
   t!: boolean;
-  currentAddressState!: string;
-  currentAddressCity!: string;
-  pickUpTime!: string;
-  dropTime!: string;
+  currentAddressState?: string;
+  currentAddressCity?: string;
+  pickUpTime?: string;
+  dropTime?: string;
+  distanceToZip?: number;
 
   static asFormGroup(driver: Driver): FormGroup {
     return new FormGroup({
       id: new FormControl(driver.id),
-      name: new FormControl(driver.name),
+      driverName: new FormControl(driver.driverName),
       zip: new FormControl(driver.zip),
-      status: new FormControl(driver.status),
-      restTime: new FormControl(new Date(driver.restTime)),
+      driverStatus: new FormControl(driver.driverStatus),
+      restTime: new FormControl(new Date(driver?.restTime)),
       notes: new FormControl(driver.notes),
     });
   }
+}
+
+export type DriverDistance = {
+  driver: Driver,
+  distance: number,
 }

@@ -22,7 +22,7 @@
       <mat-header-cell *matHeaderCellDef>name</mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
         <mat-form-field class="drivers">
-          <input matInput formControlName="name">
+          <input matInput formControlName="driverName">
         </mat-form-field>
       </mat-cell>
     </ng-container>
@@ -40,7 +40,7 @@
       <mat-header-cell *matHeaderCellDef>status</mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
         <mat-form-field class="drivers">
-          <mat-select formControlName="status">
+          <mat-select formControlName="driverStatus">
             <mat-option value="available">available</mat-option>
             <mat-option value="unavailable">unavailable</mat-option>
           </mat-select>

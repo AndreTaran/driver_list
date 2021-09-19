@@ -71,9 +71,9 @@ export class DriversComponent implements OnInit {
       .subscribe(res => {
         element.setValue({
           id: res.id,
-          name: res.name,
+          name: res.driverName,
           zip: res.zip,
-          status: res.status,
+          status: res.driverStatus,
           restTime: new Date(res.restTime),
           notes: res.notes,
         })
