@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Driver} from "../../shared/models/driver";
 import {DriversService} from "../../shared/services/drivers.service";
-import {map, take, takeUntil, takeWhile, tap} from "rxjs/operators";
+import {map, take, takeLast, takeUntil, takeWhile, tap} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
-import {ZipService} from "../../shared/services/zip.service";
+import {zipCode, ZipService} from "../../shared/services/zip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DriverUpdateDialogComponent} from "../../shared/components/driver-update-dialog/driver-update-dialog.component";
-import {Observable, timer} from "rxjs";
+import {BehaviorSubject, combineLatest, forkJoin, Observable, timer} from "rxjs";
 import {ReserveDialogComponent} from "../../shared/components/reserve-dialog/reserve-dialog.component";
 import {Timer} from "../../shared/models/timer";
 
@@ -15,12 +15,12 @@ import {Timer} from "../../shared/models/timer";
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent implements OnInit, OnDestroy {
+export class OrdersComponent implements OnInit {
   @ViewChild('zipCode') zip!: ElementRef;
   @ViewChild('distance') distance!: ElementRef;
   @ViewChild('file') file!: ElementRef;
 
-  codes$!: any;
+  searchZip!: zipCode;
   codes!: any;
   isFiltered!: boolean;
 
@@ -43,19 +43,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
               private zipService: ZipService,
               private dialog: MatDialog) {
   }
-
   ngOnInit(): void {
     this.isFiltered = true;
-    // this.driversService.getFakeData().subscribe(res => {
-    //   console.log(res, 'fake')
-    // })
-    // this.zipService.postZipCodes();
-    //  this.zipService.getZipCodeById('20230').subscribe(res => {
-    //    this.codes = res;
-    //    console.log(this.codes, 'codessssss')
-    //  });
-    // this.distance.nativeElement.value = `${250}`;
-    this.driversService.getFakeData().pipe(
+
+    this.driversService.getAll().pipe(
       map(drivers => {
         console.log(drivers)
         return drivers;
@@ -67,34 +58,26 @@ export class OrdersComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy() {
-
-  }
-
-
-
-  searchDrivers(zip: string, distance: string) {
-    if (!(zip || distance)) {
+  searchDrivers(zip: string, distance: string): void {
+    if (!zip && !distance) {
       this.zip.nativeElement.value = '';
       this.distance.nativeElement.value = '';
-      this.dataSource.filter = '';
-      this.isFiltered = true;
-      return;
     }
     this.dataSource.filter = distance;
-    this.isFiltered = false;
-    this.codes$ = this.zipService.getZipCodeById(zip)
-      .subscribe(res => {
-      this.codes = res;
-    })
-    setTimeout(
-        this.dataSource.filterPredicate = (data, filter) => {
-          console.log(this.codes, filter, 'zaza')
+    this.zipService.getDriverZipCodes(zip, distance);
+    setTimeout(() => {
 
-          // @ts-ignore
-          return this.codes[`${data.zip}`] < filter;
-        },1000);
+      let driversZip: Driver[] = [];
+      this.zipService.driversDistances$.subscribe(res => {
+        driversZip = res;
+      })
 
+      this.dataSource = new MatTableDataSource(driversZip)
+    }, 3000);
+  }
+
+  _showFloat(distance: any): number {
+    return Math.trunc(+distance);
   }
 
   show(code: any) {

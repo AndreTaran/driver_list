@@ -31,6 +31,9 @@ import { ReserveDialogComponent } from './shared/components/reserve-dialog/reser
 import { AddDriverComponent } from './components/add-driver/add-driver.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatNativeDateModule} from "@angular/material/core";
+import {AngularFireModule} from "@angular/fire/compat";
+import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -65,6 +68,8 @@ import {MatNativeDateModule} from "@angular/material/core";
         MatButtonModule,
         MatPaginatorModule,
         MatCheckboxModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireDatabaseModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

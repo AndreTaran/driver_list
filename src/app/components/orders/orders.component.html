@@ -1,5 +1,6 @@
 <h2>Order Status</h2>
 
+
 <div>
   <mat-form-field>
     <input matInput placeholder="zip code" #zipCode>
@@ -26,7 +27,7 @@
     <mat-cell *matCellDef="let element" class="idAndTypeColumn">
       <div class="subcell">
         <p class="upper">{{ element?.id }}</p>
-        <p class="lower">{{ element?.carBrand }}</p>
+        <p class="lower">{{ element?.vehicleType }}</p>
       </div>
     </mat-cell>
   </ng-container>
@@ -41,7 +42,7 @@
     <mat-cell *matCellDef="let element" class="statusColumn">
       <div class="subcell">
         <p class="upper" [ngClass]="{'reserved': (timerList[element.id].timer$ | async) > 0 && timerList[element.id].isShown}">
-          {{ element?.status }}
+          {{ element?.driverStatus }}
           <span>
           {{timerList[element.id].isShown ? (timerList[element.id].timer$ | async) : ''}}
           </span>
@@ -62,8 +63,7 @@
       <div class="subcell">
         <p class="upper">{{ element?.zip }}</p>
         <p class="lower cells-blue">
-          <span *ngIf="codes">{{ codes[element.zip] }}</span>
-          <span *ngIf="!codes">0</span>
+          <span *ngIf="true">{{ _showFloat(element?.distanceToZip) }}</span>
         </p>
       </div>
     </mat-cell>
@@ -145,8 +145,8 @@
     </mat-header-cell>
     <mat-cell *matCellDef="let element" class="driverNameAndAddressColumn">
       <div class="subcell">
-        <p class="upper">{{ element.name }}</p>
-        <p class="lower">{{ element.homeAddress }}</p>
+        <p class="upper">{{ element.driverName }}</p>
+        <p class="lower">{{ element.homeAddressState + ' ' + element.homeAddressCity}}</p>
       </div>
     </mat-cell>
   </ng-container>
@@ -161,8 +161,7 @@
     <mat-cell *matCellDef="let element" class="isCitizenColumn">
       <div class="subcell">
         <p class="upper">
-          <span *ngIf="element.isCitizen"><i class="fa fa-check"></i></span>
-          <span *ngIf="!element.isCitizen"><i class="fa fa-times"></i></span>
+          {{element.isCitizen.slice(0, 2)}}
         </p>
         <p class="lower">
           <span *ngIf="element.toCanada"><i class="fa fa-check"></i></span>
@@ -191,13 +190,13 @@
       <div class="subcell">
         <div class="upper cells">
           <div class="cell">r</div>
-          <div class="cell cell-medium">{{ element.carDoorWidth }}</div>
-          <div class="cell">{{ element.carDoorHeight }}</div>
+          <div class="cell cell-medium">{{ element.vehicleDoorSizeWidth }}</div>
+          <div class="cell">{{ element.vehicleDoorSizeHeight }}</div>
         </div>
         <div class="lower cells cells-yellow">
-          <div class="cell">{{ element.carInsideLength }}</div>
-          <div class="cell cell-medium">{{ element.carInsideWidth }}</div>
-          <div class="cell">{{ element.carInsideHeight }}</div>
+          <div class="cell">{{ element.vehicleInsideSizeLength }}</div>
+          <div class="cell cell-medium">{{ element.vehicleInsideSizeWidth }}</div>
+          <div class="cell">{{ element.vehicleInsideSizeHeight }}</div>
         </div>
       </div>
     </mat-cell>
@@ -223,7 +222,7 @@
       Driver Name
     </mat-header-cell>
     <mat-cell *matCellDef="let element" class="driverNameColumn">
-      {{ element.name }}
+      {{ element.driverName }}
     </mat-cell>
   </ng-container>
 
@@ -232,7 +231,8 @@
       Call
     </mat-header-cell>
     <mat-cell *matCellDef="let element" class="driverContactColumn">
-      {{ element.phoneNumber }}
+      {{ element.driverPhoneNumber }}
+      <a href="tel:+380954755108">calling</a>
     </mat-cell>
   </ng-container>
 
@@ -241,7 +241,7 @@
       Owner name
     </mat-header-cell>
     <mat-cell *matCellDef="let element" class="driverNameColumn">
-      {{ element.bossName }}
+      {{ element.ownerName }}
     </mat-cell>
   </ng-container>
 
@@ -250,7 +250,7 @@
       Call
     </mat-header-cell>
     <mat-cell *matCellDef="let element" class="driverContactColumn">
-      {{ element.phoneNumberBoss }}
+      {{ element.ownerPhoneNumber }}
     </mat-cell>
   </ng-container>
 
