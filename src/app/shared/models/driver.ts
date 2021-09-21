@@ -2,46 +2,56 @@ import {FormControl, FormGroup} from "@angular/forms";
 
 export class Driver {
   id!: number;
-  vehicleType!: string;
+
+  // DRIVER INFO
   driverName!: string;
-  zip!: number;
+  driverPhoneNumber!: string;
   driverStatus!: string;
   driverHomeAddressState!: string;
   driverHomeAddressCity!: string;
   homeAddressZip!: string;
-  driverPhoneNumber!: string;
-  ownerName!: string;
-  ownerPhoneNumber!: string;
-  vehicleCapacity!: number;
-  vehicleWeight!: number;
+  currentAddressState?: string;
+  currentAddressCity?: string;
   hiringDate!: string;
   vinCode!: string;
   licenseNumber!: string;
   insuranceTimeOut!: string;
+  isCitizen!: string;
+  toCanada!: boolean;
+
+  // VEHICLE INFO
+  vehicleType!: string;
+  vehicleCapacity!: number;
+  vehicleWeight!: number;
   vehicleBrand!: string;
   vehicleModel!: string;
-  vehicleColor!: string;
   vehicleProductionYear!: string;
   vehicleInsideSizeWidth!: number;
   vehicleInsideSizeLength!: number;
   vehicleInsideSizeHeight!: number;
   vehicleDoorSizeWidth!: number;
   vehicleDoorSizeHeight!: number;
-  isCitizen!: string;
-  toCanada!: boolean;
-  restTime!: string;
-  notes!: string;
+
+  // OWNER INFO
+  ownerName!: string;
+  ownerPhoneNumber!: string;
+
   lg!: boolean;
   p!: boolean;
   r!: boolean;
   ar!: boolean;
   dh!: boolean;
   t!: boolean;
-  currentAddressState?: string;
-  currentAddressCity?: string;
+
+  zip!: number;
   pickUpTime?: string;
   dropTime?: string;
   distanceToZip?: number;
+  restTime!: string;
+
+  notes!: string;
+
+
 
   static asFormGroup(driver: Driver): FormGroup {
     return new FormGroup({
@@ -53,9 +63,4 @@ export class Driver {
       notes: new FormControl(driver.notes),
     });
   }
-}
-
-export type DriverDistance = {
-  driver: Driver,
-  distance: number,
 }

@@ -138,4 +138,12 @@ export class OrdersComponent implements OnInit {
     // @ts-ignore
     data.forEach(driver => this.timerList[driver.id] = {})
   }
+
+  isLicenceRunsOut(driver: Driver): boolean {
+    const today = new Date();
+    const insuranceTimeOut = new Date(driver.insuranceTimeOut);
+
+    // @ts-ignore
+    return insuranceTimeOut - today > 7;
+  }
 }
