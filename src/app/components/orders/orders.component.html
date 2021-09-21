@@ -6,7 +6,7 @@
     <input matInput placeholder="zip code" #zipCode>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="distance" #distance>
+    <input matInput placeholder="distance" value="250" #distance>
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="searchDrivers(zipCode.value, distance.value)">search</button>
   <button mat-button (click)="searchDrivers('', '')">refresh</button>
@@ -63,7 +63,11 @@
       <div class="subcell">
         <p class="upper">{{ element?.zip }}</p>
         <p class="lower cells-blue">
-          <span *ngIf="true">{{ _showFloat(element?.distanceToZip) }}</span>
+          <span *ngIf="true">{{
+              _showFloat(element?.distanceToZip) ?
+              _showFloat(element?.distanceToZip) :
+              ''
+            }}</span>
         </p>
       </div>
     </mat-cell>
@@ -255,7 +259,7 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row [ngClass]="{'row-red': (element.zip % 2),
+  <mat-row [ngClass]="{'row-red': isLicenceRunsOut(element),
                        'row-chosen': chosenDriver == element}" *matRowDef="let element; let row; columns: displayedColumns" (click)="chose(element)"></mat-row>
 </table>
 

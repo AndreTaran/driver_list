@@ -36,7 +36,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
       {email: form.email, password: form.password, returnSecureToken: true}).pipe(
         tap(response => {
-          console.log(response)
+          console.log(response, 'pasasi')
           // @ts-ignore
           return this.user$.next(response.localId);
         }),
