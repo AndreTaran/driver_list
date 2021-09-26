@@ -28,12 +28,15 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { DriverUpdateDialogComponent } from './shared/components/driver-update-dialog/driver-update-dialog.component';
 import { ReserveDialogComponent } from './shared/components/reserve-dialog/reserve-dialog.component';
-import { AddDriverComponent } from './components/add-driver/add-driver.component';
+import { AddDriverComponent } from './components/admin/add-driver/add-driver.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatNativeDateModule} from "@angular/material/core";
 import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {environment} from "../environments/environment";
+import { AddUserComponent } from './components/admin/add-user/add-user.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -46,31 +49,34 @@ import {environment} from "../environments/environment";
     ConfirmDialogComponent,
     DriverUpdateDialogComponent,
     ReserveDialogComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    AddUserComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatTableModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatFormFieldModule,
-        HttpClientModule,
-        NgxMatDatetimePickerModule,
-        NgxMatTimepickerModule,
-        NgxMatNativeDateModule,
-        MatNativeDateModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatPaginatorModule,
-        MatCheckboxModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFireDatabaseModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    HttpClientModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
+    MatMenuModule,
+    MatIconModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

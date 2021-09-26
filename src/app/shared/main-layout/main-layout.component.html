@@ -12,12 +12,23 @@
     <li class="nav-link" *ngIf="currentUser">
       <a routerLink="add-driver" routerLinkActive="active">add driver</a>
     </li>
+    <li class="nav-link" *ngIf="currentUser">
+      <a routerLink="add-user" routerLinkActive="active">add user</a>
+    </li>
 
     <li class="nav-link log-status">
       <a routerLink="login" routerLinkActive="active" *ngIf="!currentUser">login</a>
       <div *ngIf="currentUser">
-        {{'user name '}}
-        <a (click)="logout()">logout</a>
+        <button mat-button [matMenuTriggerFor]="menu">
+          {{ getUserName() }}
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="logout()">
+            logout
+            <mat-icon>logout</mat-icon>
+          </button>
+        </mat-menu>
       </div>
     </li>
   </ul>

@@ -6,16 +6,19 @@ import { BrokersComponent} from "./components/broker/brokers.component";
 import {MainLayoutComponent} from "./shared/main-layout/main-layout.component";
 import {LoginPageComponent} from "./components/login-page/login-page.component";
 import {AuthGuard} from "./shared/services/auth.guard";
-import {AddDriverComponent} from "./components/add-driver/add-driver.component";
+import {AddDriverComponent} from "./components/admin/add-driver/add-driver.component";
+import {AdminGuard} from "./shared/services/admin.guard";
+import {AddUserComponent} from "./components/admin/add-user/add-user.component";
 
 const routes: Routes = [
   {
     path: '', component: MainLayoutComponent, children: [
-      {path: '', redirectTo: 'drivers', pathMatch: 'full'},
+      {path: '', redirectTo: '/drivers', pathMatch: 'full'},
       {path: 'drivers', component: DriversComponent, canActivate: [AuthGuard]},
       {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
       {path: 'brokers', component: BrokersComponent, canActivate: [AuthGuard]},
-      {path: 'add-driver', component: AddDriverComponent, canActivate: [AuthGuard]},
+      {path: 'add-driver', component: AddDriverComponent, canActivate: [AuthGuard, AdminGuard]},
+      {path: 'add-user', component: AddUserComponent, canActivate: [AuthGuard, AdminGuard]},
       {path: 'login', component: LoginPageComponent},
   ]}
 ];

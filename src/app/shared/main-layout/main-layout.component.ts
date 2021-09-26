@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService, User} from "../services/auth.service";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-main-layout',
@@ -17,6 +17,10 @@ export class MainLayoutComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  getUserName(): string | null {
+    return localStorage.getItem('name');
   }
 
 }

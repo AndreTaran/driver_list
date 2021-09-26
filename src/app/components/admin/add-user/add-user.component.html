@@ -1,0 +1,26 @@
+<div class="form-container">
+  <h2>Add User</h2>
+  <form [formGroup]="myForm" class="user-form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>user email</mat-label>
+      <input matInput class="form-control" formControlName="userEmail">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>user name</mat-label>
+      <input matInput class="form-control" formControlName="userName">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>user password</mat-label>
+      <input matInput class="form-control" formControlName="userPassword">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>user role</mat-label>
+      <mat-select formControlName="userRole">
+        <mat-option value="admin">admin</mat-option>
+        <mat-option value="user">user</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button class="button" mat-flat-button color="primary">Create user</button>
+  </form>
+</div>
