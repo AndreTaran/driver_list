@@ -22,9 +22,12 @@ export class LoginPageComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      console.log(this.form.value)
+      // console.log(this.form.value)
       this.authService.login(this.form.value)
-        .subscribe(() => this.router.navigateByUrl('/drivers'));
+        .subscribe((res) => {
+          console.log(res, 'soska')
+          this.router.navigateByUrl('/drivers')
+        });
     }
   }
 

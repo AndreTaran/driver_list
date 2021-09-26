@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DriversService} from "../../shared/services/drivers.service";
+import {DriversService} from "../../../shared/services/drivers.service";
 import {map, tap} from "rxjs/operators";
 import {BehaviorSubject} from "rxjs";
 
@@ -62,6 +62,7 @@ export class AddDriverComponent implements OnInit {
       response => {
         console.log(response);
         this.myForm.reset();
+        this.myForm.markAsUntouched();
       }
     )
     this.getLastDriver().subscribe(driver => {

@@ -5,12 +5,18 @@ import {environment} from "../../../environments/environment";
 import {switchMap, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
 
+// export interface User {
+//   uid: string;
+//   email: string;
+//   displayName: string;
+//   photoURL: string;
+//   emailVerified: boolean;
+// }
+
 export interface User {
-  uid: string;
   email: string;
-  displayName: string;
-  photoURL: string;
-  emailVerified: boolean;
+  name: string;
+  role: string;
 }
 
 export interface LoginResponse {
@@ -37,8 +43,9 @@ export class AuthService {
       {email: form.email, password: form.password, returnSecureToken: true}).pipe(
         tap(response => {
           console.log(response, 'pasasi')
+          localStorage.setItem('email', response.email)
           // @ts-ignore
-          return this.user$.next(response.localId);
+          return this.user$.next(response);
         }),
     );
   }
@@ -58,5 +65,22 @@ export class AuthService {
         return of(null);
       })
     )
+  }
+  // getCurrentUser(): Observable<User> {
+  //   return
+  // }
+
+  signUp(email: string, name: string, password: string, role: string) {
+    console.log(email, password, role)
+    this.http.post<LoginResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
+      {email, password, returnSecureToken: true}).pipe(
+        tap(res => console.log(res))
+    ).subscribe(res => console.log(res))
+
+    this.http.post(`${environment.fbURL}/users.json`, {email: email, name: name, role: role})
+      .pipe(
+        tap(res => console.log(res))
+      )
+      .subscribe(res => console.log(res))
   }
 }

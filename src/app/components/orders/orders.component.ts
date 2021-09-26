@@ -23,6 +23,7 @@ export class OrdersComponent implements OnInit {
   searchZip!: zipCode;
   codes!: any;
   isFiltered!: boolean;
+  drivers: Driver[] = [];
 
   timer$: any;
   counter: any;
@@ -53,8 +54,11 @@ export class OrdersComponent implements OnInit {
       })
     ).subscribe(drivers => {
       console.log([...Object.values(drivers)], 'jij')
-      this.dataSource = new MatTableDataSource([...Object.values(drivers)]);
+      this.drivers = [...Object.values(drivers)];
+      this.dataSource = new MatTableDataSource(this.drivers);
       this._setUpTimers(this.dataSource.data);
+
+      this.zipService.getZipCodes();
     })
   }
 
@@ -63,21 +67,66 @@ export class OrdersComponent implements OnInit {
       this.zip.nativeElement.value = '';
       this.distance.nativeElement.value = '';
     }
-    this.dataSource.filter = distance;
-    this.zipService.getDriverZipCodes(zip, distance);
-    setTimeout(() => {
 
-      let driversZip: Driver[] = [];
-      this.zipService.driversDistances$.subscribe(res => {
-        driversZip = res;
+    let searchZip: zipCode = {};
+    this.zipService.getSearchZipCode(zip).then(res => {
+      console.log(res.val(), 'resssult')
+      // @ts-ignore
+      let searchZip: zipCode = Object.values(res.val())[0];
+      console.log(this.zipService.zipCodes$.getValue(), 'lol a cho')
+      const zips: zipCode[] = this.zipService.zipCodes$.getValue();
+      // console.log(this.dataSource.data, 'lol a cho')
+      let drivers: Driver[] = [];
+      this.drivers.forEach(driver => {
+        // @ts-ignore
+        let driverZip: zipCode = zips.find(el => el.zip === driver.zip)
+        console.log(driverZip, 'driverZip')
+        let dist: number = -1;
+        if ((searchZip && driverZip))  {
+          dist = this.zipService._calculateDistance(searchZip, driverZip);
+          driver.distanceToZip = dist;
+          console.log(dist, 'distance')
+          console.log(driver.distanceToZip, 'driver distance')
+          console.log(dist > -1, dist < +distance, 'lol')
+          if (dist > -1 && dist < +distance) {
+            console.log(driver, 'driver')
+            drivers.push(driver);
+          }
+        }
       })
+      this.dataSource = new MatTableDataSource(drivers);
+    });
 
-      this.dataSource = new MatTableDataSource(driversZip)
-    }, 3000);
+    // this.dataSource.filter = distance;
+    // this.zipService.getDriverZipCodes(zip, distance);
+    // setTimeout(() => {
+    //
+    //   let driversZip: Driver[] = [];
+    //   this.zipService.driversDistances$.subscribe(res => {
+    //     driversZip = res;
+    //   })
+    //
+    //   this.dataSource = new MatTableDataSource(driversZip)
+    // }, 3000);
+    this.zipService.searchZip$.subscribe(res => {
+      searchZip = res;
+      console.log(res, 'ssssssssssssssssss')
+    })
+    console.log(searchZip, 'gooooool')
+    let drivers: Driver[] = []
+    this.zipService.zipCodes$.subscribe(res => {
+      console.log(res, 'zips');
+      console.log(searchZip, 'gooooool')
+
+    })
   }
 
-  _showFloat(distance: any): number {
+  showFloat(distance: any): number {
     return Math.trunc(+distance);
+  }
+
+  isNumber(value: any): boolean {
+    return typeof value === 'number';
   }
 
   show(code: any) {

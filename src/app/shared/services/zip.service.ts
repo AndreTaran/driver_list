@@ -21,6 +21,8 @@ export class ZipService {
   driversDistances$: BehaviorSubject<Driver[]> = new BehaviorSubject<Driver[]>(null);
   // @ts-ignore
   searchZip$: BehaviorSubject<zipCode> = new BehaviorSubject<zipCode>(null);
+  // @ts-ignore
+  zipCodes$: BehaviorSubject<zipCode[]> = new BehaviorSubject<zipCode[]>(null);
 
   constructor(private http: HttpClient,
               private afs: AngularFirestore,
@@ -28,9 +30,9 @@ export class ZipService {
               private  fs: AngularFireStorage) {
   }
 
-  getZipCodes() {
-    return this.http.get(`${environment.fbURL}/zip_distance.json`);
-  }
+  // getZipCodes() {
+  //   return this.http.get(`${environment.fbURL}/zip_distance.json`);
+  // }
 
   getZipCodeById(id: string) {
     return this.http.get(`${environment.fbURL}/zip_distance/-MhmtevwIOXiL4IvEFGE/${id}.json`);
@@ -39,7 +41,7 @@ export class ZipService {
   _calculateDistance(zip1: zipCode, zip2: zipCode): number {
     // metres
     const R = 6371e3;
-
+    console.log(zip1, zip2)
     // φ, λ in radians
     const phi1 = +zip1.latitude * Math.PI/180;
     const phi2 = +zip2.latitude * Math.PI/180;
@@ -120,15 +122,33 @@ export class ZipService {
     console.log(drivers, 'huya drivers')
   }
 
-  getSearchZipCode(zip: string): Observable<zipCode> {
+  getSearchZipCode(zip: string) {
     let res!: zipCode;
     const zipRef = this.db.database.ref().child('zip_codes');
-    zipRef.orderByChild('zip').equalTo(zip).once('value', snap => {
+    return zipRef.orderByChild('zip').equalTo(zip).once('value', snap => {
       console.log(snap.val(), 'snap');
-      res = snap.val();
-      this.searchZip$.next(res);
-    })
+    });
+  }
 
-    return this.searchZip$;
+  getZipCodes() {
+    const driversRef = this.db.database.ref().child('drivers');
+    const zipRef = this.db.database.ref().child('zip_codes');
+    let result: zipCode[] = [];
+
+    driversRef.on('child_added', snap => {
+      let driver: Driver = snap.val();
+      console.log(driver, 'driver')
+      console.log(driver.zip)
+      zipRef.orderByChild('zip').equalTo(driver.zip).once('value', snap => {
+        console.log(snap.val(), 'ccicicicicic')
+        if (snap.val()[0]) {
+          result.push(snap.val()[0]);
+        } else {
+          result.push(snap.val()[1]);
+        }
+      })
+    });
+
+    this.zipCodes$.next(result);
   }
 }
