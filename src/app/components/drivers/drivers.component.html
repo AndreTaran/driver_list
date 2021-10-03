@@ -1,12 +1,12 @@
 <form [formGroup]="form">
   <h2>Status Update</h2>
-  <div>
-    <mat-form-field class="drivers">
-      <input matInput #filter>
+  <div class="header-menu">
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="search" #filter>
     </mat-form-field>
 
-    <button (click)="applySearch(filter.value)">find</button>
-    <button (click)="applySearch('')">reset</button>
+    <button mat-flat-button color="primary" (click)="applySearch(filter.value)">find</button>
+    <button mat-flat-button color="primary" (click)="applySearch('')">reset</button>
   </div>
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="id">

@@ -6,6 +6,8 @@ table {
   max-height: 50px;
 }
 
-.drivers ::ng-deep .mat-form-field-underline {
-  display: none;
+.header-menu {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }

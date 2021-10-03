@@ -23,4 +23,9 @@ export class MainLayoutComponent implements OnInit {
     return localStorage.getItem('name');
   }
 
+  isUserAdmin(): boolean {
+    const userRole = localStorage.getItem('role');
+    return userRole === 'admin';
+  }
+
 }

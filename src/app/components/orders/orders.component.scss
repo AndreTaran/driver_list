@@ -13,7 +13,7 @@ p {
 }
 
 table {
-  width: 1370px;
+  width: 1400px;
   padding: 0;
   margin: 0 auto;
   border-left: 1px solid $border;
@@ -68,6 +68,10 @@ table {
   width: 150px;
 }
 
+.rest-time-cell {
+  background-color: #ffb999;
+}
+
 .flagsColumn {
   width: 45px;
   display: flex;
@@ -87,7 +91,7 @@ table {
 }
 
 .ETAColumn {
-  width: 100px;
+  width: 130px;
 }
 
 .driverNameColumn {
@@ -163,3 +167,16 @@ table {
 .reserved {
   color: #001aff;
 }
+
+.clipboard {
+  position: relative;
+}
+
+.clipboard-button {
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  background-color: #ffb999;
+  padding: 5px 0 2px;
+}
+

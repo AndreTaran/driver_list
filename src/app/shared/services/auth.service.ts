@@ -52,6 +52,9 @@ export class AuthService {
 
   logout() {
     this.user$.next(null);
+    localStorage.removeItem('role');
+    localStorage.removeItem('email');
+    localStorage.removeItem('name');
     this.router.navigateByUrl('login');
   }
 
@@ -77,10 +80,10 @@ export class AuthService {
         tap(res => console.log(res))
     ).subscribe(res => console.log(res))
 
-    this.http.post(`${environment.fbURL}/users.json`, {email: email, name: name, role: role})
+    return this.http.post(`${environment.fbURL}/users.json`, {email: email, name: name, role: role})
       .pipe(
         tap(res => console.log(res))
       )
-      .subscribe(res => console.log(res))
+      // .subscribe(res => console.log(res))
   }
 }

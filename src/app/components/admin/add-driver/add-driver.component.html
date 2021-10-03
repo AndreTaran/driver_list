@@ -7,6 +7,7 @@
   </mat-form-field>
 
   <mat-form-field class="field">
+    <mat-label>Hiring Date</mat-label>
     <input matInput [matDatepicker]="hiringPicker" formControlName="hiringDate">
     <mat-datepicker-toggle matSuffix [for]="hiringPicker"></mat-datepicker-toggle>
     <mat-datepicker #hiringPicker></mat-datepicker>
@@ -95,6 +96,7 @@
   </div>
 
   <mat-form-field class="field">
+    <mat-label>Vehicle Production Year</mat-label>
     <input matInput [matDatepicker]="yearPicker" formControlName="vehicleProductionYear">
     <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
     <mat-datepicker #yearPicker></mat-datepicker>
@@ -111,6 +113,7 @@
   </mat-form-field>
 
   <mat-form-field class="field">
+    <mat-label>Insurance Time Out</mat-label>
     <input matInput [matDatepicker]="insurancePicker" formControlName="insuranceTimeOut">
     <mat-datepicker-toggle matSuffix [for]="insurancePicker"></mat-datepicker-toggle>
     <mat-datepicker #insurancePicker></mat-datepicker>

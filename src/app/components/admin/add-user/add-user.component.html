@@ -3,15 +3,15 @@
   <form [formGroup]="myForm" class="user-form" (ngSubmit)="submit()">
     <mat-form-field>
       <mat-label>user email</mat-label>
-      <input matInput class="form-control" formControlName="userEmail">
+      <input type="email" matInput class="form-control" formControlName="userEmail">
     </mat-form-field>
     <mat-form-field>
       <mat-label>user name</mat-label>
-      <input matInput class="form-control" formControlName="userName">
+      <input type="text" matInput class="form-control" formControlName="userName">
     </mat-form-field>
     <mat-form-field>
       <mat-label>user password</mat-label>
-      <input matInput class="form-control" formControlName="userPassword">
+      <input type="password" matInput class="form-control" formControlName="userPassword">
     </mat-form-field>
     <mat-form-field>
       <mat-label>user role</mat-label>
