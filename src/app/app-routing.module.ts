@@ -13,13 +13,13 @@ import {AddUserComponent} from "./components/admin/add-user/add-user.component";
 const routes: Routes = [
   {
     path: '', component: MainLayoutComponent, children: [
-      {path: '', redirectTo: '/drivers', pathMatch: 'full'},
+      {path: '', redirectTo: '/login', pathMatch: 'full'},
+      {path: 'login', component: LoginPageComponent},
       {path: 'drivers', component: DriversComponent, canActivate: [AuthGuard]},
       {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
       {path: 'brokers', component: BrokersComponent, canActivate: [AuthGuard]},
       {path: 'add-driver', component: AddDriverComponent, canActivate: [AuthGuard, AdminGuard]},
       {path: 'add-user', component: AddUserComponent, canActivate: [AuthGuard, AdminGuard]},
-      {path: 'login', component: LoginPageComponent},
   ]}
 ];
 

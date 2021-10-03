@@ -17,7 +17,9 @@ export class AddDriverComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLastDriver().subscribe(driver => {
-      this.lastDriver = driver
+      this.lastDriver = driver[driver.length - 1]
+      console.log(this.lastDriver, 'huyyy')
+
     });
     this.myForm = this.formBuilder.group({
       'driverName': ['', Validators.required],
@@ -57,12 +59,12 @@ export class AddDriverComponent implements OnInit {
 
   onSubmit(event: any):void {
     event.stopPropagation();
-    let userId = this.lastDriver ? this.lastDriver[0].id + 1 : 0;
+    let userId = this.lastDriver ? this.lastDriver?.id + 1 : 0;
+    console.log(userId)
     this.driverService.addDriver(userId, {id: userId, ...this.myForm.value}).subscribe(
       response => {
         console.log(response);
         this.myForm.reset();
-        this.myForm.markAsUntouched();
       }
     )
     this.getLastDriver().subscribe(driver => {

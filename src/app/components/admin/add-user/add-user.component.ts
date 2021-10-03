@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../shared/services/auth.service";
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-add-user',
@@ -30,7 +31,10 @@ export class AddUserComponent implements OnInit {
       this.myForm.value['userName'],
       this.myForm.value['userPassword'],
       this.myForm.value['userRole']
-    )
+    ).subscribe(() => {
+        this.myForm.reset();
+      }
+    );
   }
 
 }

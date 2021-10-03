@@ -37,6 +37,7 @@ import {environment} from "../environments/environment";
 import { AddUserComponent } from './components/admin/add-user/add-user.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 @NgModule({
   declarations: [
@@ -52,31 +53,32 @@ import {MatIconModule} from "@angular/material/icon";
     AddDriverComponent,
     AddUserComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    HttpClientModule,
-    NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule,
-    NgxMatNativeDateModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    MatCheckboxModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule,
-    MatMenuModule,
-    MatIconModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatTableModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        HttpClientModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        NgxMatNativeDateModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatCheckboxModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireDatabaseModule,
+        MatMenuModule,
+        MatIconModule,
+        ClipboardModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

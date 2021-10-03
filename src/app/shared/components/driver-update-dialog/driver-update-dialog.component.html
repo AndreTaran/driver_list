@@ -8,7 +8,10 @@
 
   <mat-form-field>
     <mat-label>status</mat-label>
-    <input matInput [(ngModel)]="data.driver.driverStatus">
+    <mat-select [(ngModel)]="data.driver.driverStatus">
+      <mat-option value="available">available</mat-option>
+      <mat-option value="unavailable">unavailable</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field>

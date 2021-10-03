@@ -25,7 +25,6 @@ export class OrdersComponent implements OnInit {
   isFiltered!: boolean;
   drivers: Driver[] = [];
 
-  timer$: any;
   counter: any;
 
   chosenDriver!: Driver;
@@ -57,15 +56,20 @@ export class OrdersComponent implements OnInit {
       this.drivers = [...Object.values(drivers)];
       this.dataSource = new MatTableDataSource(this.drivers);
       this._setUpTimers(this.dataSource.data);
+      this.initTimers();
 
       this.zipService.getZipCodes();
-    })
+    });
+
+    console.log(this.timerList, 'timers init')
   }
 
   searchDrivers(zip: string, distance: string): void {
     if (!zip && !distance) {
       this.zip.nativeElement.value = '';
-      this.distance.nativeElement.value = '';
+      this.distance.nativeElement.value = '250';
+      this.dataSource = new MatTableDataSource(this.drivers);
+      return;
     }
 
     let searchZip: zipCode = {};
@@ -149,6 +153,7 @@ export class OrdersComponent implements OnInit {
         this.chosenDriver = result.driver;
         this.chosenDriver.restTime = result.time;
         console.log(result)
+        this.driversService.updateData(result.driver);
       }
     });
   }
@@ -161,24 +166,29 @@ export class OrdersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      console.log(this.timerList, 'timerlist')
       if (result) {
         this.reserve(this.chosenDriver.id, result)
+        this.saveTimers();
       }
     });
   }
 
   reserve(id: number, reserveTime: number) {
-    this.timerList[id].reservedTime = reserveTime
-    this.timerList[id].isShown = true
-    console.log(id, this.timerList[id].reservedTime, 'counter')
+    console.log(this.timerList[id], 'ti daun')
+    this.timerList[id].date = new Date();
+    this.timerList[id].reservedTime = reserveTime;
+    this.timerList[id].isShown = true;
+    console.log(id, this.timerList[id].reservedTime, 'counter');
     this.timerList[id].timer$ = timer(100, 1000).pipe(
       map(i => {
         console.log(i)
-        return (this.timerList[id].reservedTime - i)
+        return (this.timerList[id].reservedTime - i);
       }),
-      take(this.timerList[id].reservedTime + 1),
+      // take(this.timerList[id].reservedTime + 1),
       // takeUntil(this.ngOnDestroy())
     )
+    console.log(this.timerList[id], 'syka')
     setTimeout(() => this.timerList[id].isShown = false, reserveTime * 1000)
 
   }
@@ -193,6 +203,61 @@ export class OrdersComponent implements OnInit {
     const insuranceTimeOut = new Date(driver.insuranceTimeOut);
 
     // @ts-ignore
-    return insuranceTimeOut - today > 7;
+    return (insuranceTimeOut - today) > 7;
+  }
+
+  countEtaToPu(miles: number): string {
+    if (miles === 0) {
+      return new Date().toString();
+    } else if (!miles) {
+      return '-';
+    }
+
+    let date = new Date();
+    date.setDate(date.getDate() + +miles/50);
+
+    return date.toString();
+  }
+
+  getEmailClipBoardMessage(driver: Driver): string {
+    return `sosi huy ${driver.driverName}`;
+  }
+
+  initTimers(): void {
+    const timers: Timer = JSON.parse(<string>localStorage.getItem('timers'));
+    for (let timer in timers) {
+      const now = new Date();
+      let timeReserved = new Date(timers[timer].date);
+      console.log(timeReserved)
+      let tillReserved = new Date(timeReserved);
+      tillReserved.setMinutes(timeReserved.getMinutes() + timers[timer].reservedTime / 60);
+      console.log(tillReserved, 'till', timers[timer].reservedTime)
+      const timeLeft = +now - +tillReserved;
+      console.log(+now, tillReserved, +tillReserved, +timeLeft)
+      console.log(timer, timers[timer], timeLeft, timers[timer]?.reservedTime, 'huy');
+      if ((+now - +tillReserved) < 0) {
+        console.log((+tillReserved - +now), 'res', timer)
+        this.reserve(+timer, (+tillReserved - +now) / 1000);
+      }
+
+    }
+    console.log(this.timerList, 'in init')
+
+  }
+
+  saveTimers(): void {
+    localStorage.setItem('timers', JSON.stringify(this.timerList));
+  }
+
+  formatTimer(time: number): string {
+    if (time > 60) {
+      return `${(time / 60).toString().split('.')[0]}:${(time % 60).toString().split('.')[0]}`
+    }
+    return time.toString().split('.')[0];
+  }
+
+  cancelReserve(): void {
+    this.reserve(this.chosenDriver.id, 0);
+    this.saveTimers();
   }
 }

@@ -1,24 +1,21 @@
 <nav class="nav-bar">
   <ul class="nav-links">
-    <li class="nav-link" *ngIf="currentUser">
+    <li class="nav-link" *ngIf="getUserName()">
       <a routerLink="drivers" routerLinkActive="active">Drivers</a>
     </li>
-    <li class="nav-link" *ngIf="currentUser">
+    <li class="nav-link" *ngIf="getUserName()">
       <a routerLink="orders" routerLinkActive="active">Orders</a>
     </li>
-    <li class="nav-link" *ngIf="currentUser">
-      <a routerLink="brokers" routerLinkActive="active">Brokers</a>
-    </li>
-    <li class="nav-link" *ngIf="currentUser">
+    <li class="nav-link" *ngIf="isUserAdmin()">
       <a routerLink="add-driver" routerLinkActive="active">add driver</a>
     </li>
-    <li class="nav-link" *ngIf="currentUser">
+    <li class="nav-link" *ngIf="isUserAdmin()">
       <a routerLink="add-user" routerLinkActive="active">add user</a>
     </li>
 
     <li class="nav-link log-status">
-      <a routerLink="login" routerLinkActive="active" *ngIf="!currentUser">login</a>
-      <div *ngIf="currentUser">
+      <a routerLink="login" routerLinkActive="active" *ngIf="!getUserName()">login</a>
+      <div *ngIf="getUserName()">
         <button mat-button [matMenuTriggerFor]="menu">
           {{ getUserName() }}
           <mat-icon>expand_more</mat-icon>

@@ -16,11 +16,11 @@ export class DriversService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${environment.fbURL}/drivers.json`);
+    return this.http.get<Driver[]>(`${environment.fbURL}/drivers.json?orderBy="driverStatus"&equalTo="available"`);
   }
 
   getById(driver: Driver): Observable<Driver> {
-    return this.http.get<Driver>(`${environment.fbURL}/drivers/${driver.id}.json`)
+    return this.http.get<Driver>(`${environment.fbURL}/drivers/${driver?.id}.json`)
   }
 
   getAllAsFormArray(): Observable<FormArray> {

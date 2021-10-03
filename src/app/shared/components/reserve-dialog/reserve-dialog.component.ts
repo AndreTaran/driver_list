@@ -9,8 +9,7 @@ import {Observable} from "rxjs";
   styleUrls: ['./reserve-dialog.component.scss']
 })
 export class ReserveDialogComponent implements OnInit {
-  minutes!: any;
-  seconds!: any;
+  minutes = 15;
 
   constructor(public dialogRef: MatDialogRef<ReserveDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {driver: Driver, timer: Observable<any>}) { }
@@ -23,7 +22,7 @@ export class ReserveDialogComponent implements OnInit {
   }
 
   onReserve() {
-    const result = (+this.seconds + (+this.minutes) * 60);
+    const result = +this.minutes * 60;
     this.dialogRef.close(result);
   }
 
