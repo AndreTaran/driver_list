@@ -12,7 +12,6 @@ export class MainLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(res => this.currentUser = res);
-    console.log(this.currentUser, 'curr user')
   }
 
   logout() {

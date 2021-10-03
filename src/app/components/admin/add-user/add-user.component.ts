@@ -25,7 +25,6 @@ export class AddUserComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.myForm.value);
     this.authService.signUp(
       this.myForm.value['userEmail'],
       this.myForm.value['userName'],

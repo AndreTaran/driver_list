@@ -38,11 +38,9 @@ export class AuthService {
               private router: Router) { }
 
   login(form: {email: string, password: string}): Observable<LoginResponse> {
-    console.log(form)
     return this.http.post<LoginResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
       {email: form.email, password: form.password, returnSecureToken: true}).pipe(
         tap(response => {
-          console.log(response, 'pasasi')
           localStorage.setItem('email', response.email)
           // @ts-ignore
           return this.user$.next(response);
@@ -74,15 +72,12 @@ export class AuthService {
   // }
 
   signUp(email: string, name: string, password: string, role: string) {
-    console.log(email, password, role)
     this.http.post<LoginResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
       {email, password, returnSecureToken: true}).pipe(
-        tap(res => console.log(res))
     ).subscribe(res => console.log(res))
 
     return this.http.post(`${environment.fbURL}/users.json`, {email: email, name: name, role: role})
       .pipe(
-        tap(res => console.log(res))
       )
       // .subscribe(res => console.log(res))
   }

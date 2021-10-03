@@ -41,7 +41,6 @@ export class ZipService {
   _calculateDistance(zip1: zipCode, zip2: zipCode): number {
     // metres
     const R = 6371e3;
-    console.log(zip1, zip2)
     // φ, λ in radians
     const phi1 = +zip1.latitude * Math.PI/180;
     const phi2 = +zip2.latitude * Math.PI/180;
@@ -58,11 +57,9 @@ export class ZipService {
 
   readFile(fileInput: any) {
     let file = fileInput.nativeElement.files[0];
-    console.log(file)
     let fr = new FileReader();
     fr.readAsText(file);
     fr.onload = () => {
-      console.log(fr.result, 'resfile')
       return this.convertData(fr.result);
     }
 
@@ -87,7 +84,6 @@ export class ZipService {
     // let drivers: DriverDistance[] = [];
     let drivers: Driver[] = [];
     zipRef.orderByChild('zip').equalTo(zip).once('value', snap => {
-      console.log(snap.val(), 'sasat');
       if (!snap.val()) {
         // @ts-ignore
         this.driversDistances$.next(null);
@@ -96,37 +92,30 @@ export class ZipService {
 
       // @ts-ignore
       let zipCode: zipCode = Object.values(snap.val())[0];
-      console.log(zipCode)
       // driversRef.orderByChild('zip').once('value', snap => {
       driversRef.on('child_added', snap => {
         let driver: Driver = snap.val();
         // let zips = snap.val().map((res: { zip: any; }) => res.zip)
-        console.log(snap.val(), 'driver')
         zipRef.on('child_added', snap => {
           // if (zips.includes(snap.val().zip)) {
           if (driver.zip === snap.val().zip) {
             // params.push(snap.val())
-            console.log(snap.val(), 'proverochka')
             let distance = this._calculateDistance(snap.val(), zipCode);
-            console.log(distance, 'distancia')
             if (distance < +dist) {
               drivers.push({ ...driver, distanceToZip: distance })
             }
           }
         })
         this.driversDistances$.next(drivers);
-        console.log(params, 'sasasa');
 
       })
     })
-    console.log(drivers, 'huya drivers')
   }
 
   getSearchZipCode(zip: string) {
     let res!: zipCode;
     const zipRef = this.db.database.ref().child('zip_codes');
     return zipRef.orderByChild('zip').equalTo(zip).once('value', snap => {
-      console.log(snap.val(), 'snap');
     });
   }
 
@@ -137,16 +126,12 @@ export class ZipService {
 
     driversRef.once('child_added', snap => {
       let driver: Driver = snap.val();
-      console.log(driver, 'driver')
-      console.log(driver.zip)
       zipRef.orderByChild('zip').equalTo(driver.zip).once('value', snap => {
-        console.log(snap.key, snap.val(), 'ccicicicicic')
         if (Array.isArray(snap.val())) {
           result.push(snap.val()[snap.val().length - 1]);
         } else {
           result.push(<zipCode>Object.values(snap.val())[0])
         }
-        console.log(result, 'ny sho')
       })
     }).then(() => this.zipCodes$.next(result));
 

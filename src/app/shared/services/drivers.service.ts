@@ -16,6 +16,10 @@ export class DriversService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Driver[]> {
+    return this.http.get<Driver[]>(`${environment.fbURL}/drivers.json`);
+  }
+
+  getAllAvailable(): Observable<Driver[]> {
     return this.http.get<Driver[]>(`${environment.fbURL}/drivers.json?orderBy="driverStatus"&equalTo="available"`);
   }
 
@@ -27,7 +31,6 @@ export class DriversService {
     return this.getAll().pipe(
       map((drivers) => {
         drivers = [...Object.values(drivers)];
-        console.log(drivers, 'chich')
         const fgs = drivers.map(driver => Driver.asFormGroup(driver));
         return new FormArray(fgs);
       })
@@ -35,18 +38,15 @@ export class DriversService {
   }
 
   updateData(driver: Driver) {
-    console.log(driver, 'driver')
     return this.http.patch(`${environment.fbURL}/drivers/${driver.id}.json`, driver)
-      .subscribe(res => console.log(res, 'www'))
+      .subscribe(res => console.log())
   }
 
   getFakeData() {
     return this.http.get(`${environment.fbURL}/drivers.json`);
-    // return of(drivers);
   }
 
   addDriver(id: string, form: {}) {
-    console.log('posted')
     return this.http.patch(`${environment.fbURL}/drivers/${id}.json`, form);
   }
 

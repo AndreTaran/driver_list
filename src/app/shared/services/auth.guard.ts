@@ -51,16 +51,13 @@ export class AuthGuard implements CanActivate {
     }
 
     if (!user.email) {
-      console.log('huy')
       this.router.navigateByUrl('/login');
       return false;
     } else {
       const userRef = this.db.database.ref().child('users');
       userRef.orderByChild('email').equalTo(user.email).once('value', snap => {
-        console.log(snap.val(), 'sasatiiiiii')
         // @ts-ignore
         const user: User = Object.values(snap.val())[0];
-        console.log(user, 'current user')
         localStorage.setItem('role', user.role);
         localStorage.setItem('name', user.name);
 

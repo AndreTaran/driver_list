@@ -46,13 +46,11 @@ export class OrdersComponent implements OnInit {
   ngOnInit(): void {
     this.isFiltered = true;
 
-    this.driversService.getAll().pipe(
+    this.driversService.getAllAvailable().pipe(
       map(drivers => {
-        console.log(drivers)
         return drivers;
       })
     ).subscribe(drivers => {
-      console.log([...Object.values(drivers)], 'jij')
       this.drivers = [...Object.values(drivers)];
       this.dataSource = new MatTableDataSource(this.drivers);
       this._setUpTimers(this.dataSource.data);
@@ -61,7 +59,6 @@ export class OrdersComponent implements OnInit {
       this.zipService.getZipCodes();
     });
 
-    console.log(this.timerList, 'timers init')
   }
 
   searchDrivers(zip: string, distance: string): void {
@@ -74,26 +71,18 @@ export class OrdersComponent implements OnInit {
 
     let searchZip: zipCode = {};
     this.zipService.getSearchZipCode(zip).then(res => {
-      console.log(res.val(), 'resssult')
       // @ts-ignore
       let searchZip: zipCode = Object.values(res.val())[0];
-      console.log(this.zipService.zipCodes$.getValue(), 'lol a cho')
       const zips: zipCode[] = this.zipService.zipCodes$.getValue();
-      // console.log(this.dataSource.data, 'lol a cho')
       let drivers: Driver[] = [];
       this.drivers.forEach(driver => {
         // @ts-ignore
         let driverZip: zipCode = zips.find(el => el.zip === driver.zip)
-        console.log(driverZip, 'driverZip')
         let dist: number = -1;
         if ((searchZip && driverZip))  {
           dist = this.zipService._calculateDistance(searchZip, driverZip);
           driver.distanceToZip = dist;
-          console.log(dist, 'distance')
-          console.log(driver.distanceToZip, 'driver distance')
-          console.log(dist > -1, dist < +distance, 'lol')
           if (dist > -1 && dist < +distance) {
-            console.log(driver, 'driver')
             drivers.push(driver);
           }
         }
@@ -114,13 +103,9 @@ export class OrdersComponent implements OnInit {
     // }, 3000);
     this.zipService.searchZip$.subscribe(res => {
       searchZip = res;
-      console.log(res, 'ssssssssssssssssss')
     })
-    console.log(searchZip, 'gooooool')
     let drivers: Driver[] = []
     this.zipService.zipCodes$.subscribe(res => {
-      console.log(res, 'zips');
-      console.log(searchZip, 'gooooool')
 
     })
   }
@@ -131,10 +116,6 @@ export class OrdersComponent implements OnInit {
 
   isNumber(value: any): boolean {
     return typeof value === 'number';
-  }
-
-  show(code: any) {
-    console.log(code, 'kek')
   }
 
   chose(element: Driver) {
@@ -148,11 +129,9 @@ export class OrdersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       if (result) {
         this.chosenDriver = result.driver;
         this.chosenDriver.restTime = result.time;
-        console.log(result)
         this.driversService.updateData(result.driver);
       }
     });
@@ -165,8 +144,6 @@ export class OrdersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(this.timerList, 'timerlist')
       if (result) {
         this.reserve(this.chosenDriver.id, result)
         this.saveTimers();
@@ -175,20 +152,16 @@ export class OrdersComponent implements OnInit {
   }
 
   reserve(id: number, reserveTime: number) {
-    console.log(this.timerList[id], 'ti daun')
     this.timerList[id].date = new Date();
     this.timerList[id].reservedTime = reserveTime;
     this.timerList[id].isShown = true;
-    console.log(id, this.timerList[id].reservedTime, 'counter');
     this.timerList[id].timer$ = timer(100, 1000).pipe(
       map(i => {
-        console.log(i)
         return (this.timerList[id].reservedTime - i);
       }),
       // take(this.timerList[id].reservedTime + 1),
       // takeUntil(this.ngOnDestroy())
     )
-    console.log(this.timerList[id], 'syka')
     setTimeout(() => this.timerList[id].isShown = false, reserveTime * 1000)
 
   }
@@ -228,21 +201,14 @@ export class OrdersComponent implements OnInit {
     for (let timer in timers) {
       const now = new Date();
       let timeReserved = new Date(timers[timer].date);
-      console.log(timeReserved)
       let tillReserved = new Date(timeReserved);
       tillReserved.setMinutes(timeReserved.getMinutes() + timers[timer].reservedTime / 60);
-      console.log(tillReserved, 'till', timers[timer].reservedTime)
       const timeLeft = +now - +tillReserved;
-      console.log(+now, tillReserved, +tillReserved, +timeLeft)
-      console.log(timer, timers[timer], timeLeft, timers[timer]?.reservedTime, 'huy');
       if ((+now - +tillReserved) < 0) {
-        console.log((+tillReserved - +now), 'res', timer)
         this.reserve(+timer, (+tillReserved - +now) / 1000);
       }
 
     }
-    console.log(this.timerList, 'in init')
-
   }
 
   saveTimers(): void {

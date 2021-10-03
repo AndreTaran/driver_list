@@ -31,7 +31,6 @@ export class DriversComponent implements OnInit {
     });
     this.driversService.getAllAsFormArray()
       .subscribe(drivers => {
-        console.log(drivers, 'sss')
         this.form.setControl('drivers', drivers);
         this.dataSource = new MatTableDataSource((this.form.get('drivers') as FormArray).controls);
         this.dataSource.filterPredicate = (data: FormGroup, filter: string) => {
@@ -46,7 +45,6 @@ export class DriversComponent implements OnInit {
   }
 
   applySearch(search: any) {
-    console.log(search, 'value');
     if (!search) {
       this.filter.nativeElement.value = search;
     }
@@ -54,7 +52,6 @@ export class DriversComponent implements OnInit {
   }
 
   saveData(element: FormGroup) {
-    console.log('save', element.value)
     return this.driversService.updateData({
       ...element.value,
       id: element.value.id,

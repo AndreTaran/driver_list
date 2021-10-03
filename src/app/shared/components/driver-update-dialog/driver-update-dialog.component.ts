@@ -20,6 +20,4 @@ export class DriverUpdateDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  // TODO reserve -seconds, 15 min default, cancel reserve
-  // TODO unavail driver
 }
